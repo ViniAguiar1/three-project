@@ -13,7 +13,7 @@ const _targetQuaternion = new THREE.Quaternion()
 const _upAxis = new THREE.Vector3(0, 1, 0)
 
 interface PlayerProps {
-  meshRef: RefObject<THREE.Mesh | null>
+  meshRef: RefObject<THREE.Group | null>
 }
 
 export function Player({ meshRef }: PlayerProps) {
@@ -40,9 +40,28 @@ export function Player({ meshRef }: PlayerProps) {
   })
 
   return (
-    <mesh ref={meshRef} position={[0, 0.5, 0]}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#ff6b35" emissive="#ff3300" emissiveIntensity={0.2} />
-    </mesh>
+    <group ref={meshRef} position={[0, 0, 0]}>
+      {/* Body */}
+      <mesh position={[0, 0.65, 0]} castShadow>
+        <boxGeometry args={[0.7, 1.1, 0.45]} />
+        <meshStandardMaterial
+          color="#2c4a8a"
+          roughness={0.75}
+          metalness={0.05}
+          emissive="#1a2d5a"
+          emissiveIntensity={0.08}
+        />
+      </mesh>
+
+      {/* Head */}
+      <mesh position={[0, 1.55, 0]} castShadow>
+        <sphereGeometry args={[0.28, 12, 12]} />
+        <meshStandardMaterial
+          color="#e8c09a"
+          roughness={0.85}
+          metalness={0}
+        />
+      </mesh>
+    </group>
   )
 }

@@ -13,7 +13,7 @@ const _targetPosition = new THREE.Vector3()
 const _lookAtPosition = new THREE.Vector3()
 
 interface CameraFollowProps {
-  target: RefObject<THREE.Mesh | null>
+  target: RefObject<THREE.Group | null>
   orbit: RefObject<OrbitState>
 }
 

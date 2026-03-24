@@ -9,6 +9,7 @@ const MIN_DIST_FROM_CENTER = 8
 interface TreeData {
   position: [number, number, number]
   scale: number
+  variant: number
 }
 
 // Deterministic LCG — computed once at module level, no re-renders
@@ -24,7 +25,11 @@ function generateTrees(): TreeData[] {
     const x = (rand() - 0.5) * SPREAD
     const z = (rand() - 0.5) * SPREAD
     if (Math.sqrt(x * x + z * z) < MIN_DIST_FROM_CENTER) continue
-    trees.push({ position: [x, 0, z], scale: 0.7 + rand() * 0.6 })
+    trees.push({
+      position: [x, 0, z],
+      scale: 0.7 + rand() * 0.6,
+      variant: Math.floor(rand() * 3),
+    })
   }
   return trees
 }
@@ -35,14 +40,19 @@ export function Environment() {
   return (
     <group>
       {/* Ground */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[400, 400]} />
-        <meshStandardMaterial color="#5a8a5a" />
+        <meshStandardMaterial color="#6b9e5a" roughness={0.95} metalness={0} />
       </mesh>
 
       {/* Trees */}
       {TREES.map((tree, i) => (
-        <Tree key={i} position={tree.position} scale={tree.scale} />
+        <Tree
+          key={i}
+          position={tree.position}
+          scale={tree.scale}
+          variant={tree.variant}
+        />
       ))}
     </group>
   )
