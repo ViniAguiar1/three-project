@@ -30,6 +30,7 @@ export function CameraFollow({ target, orbit }: CameraFollowProps) {
     camera.position.lerp(_targetPosition, LERP_FACTOR)
 
     _lookAtPosition.copy(target.current.position)
+    _lookAtPosition.y += 0.75
     camera.lookAt(_lookAtPosition)
   })
 

@@ -8,6 +8,7 @@ export default function Home() {
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
       <Canvas
+        shadows="soft"
         style={{ width: '100%', height: '100%', display: 'block' }}
         camera={{ position: [0, 5, 10], fov: 60 }}
       >
