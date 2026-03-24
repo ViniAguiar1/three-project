@@ -23,7 +23,9 @@ export function useMouseOrbit() {
     }
 
     const onClick = () => {
-      document.documentElement.requestPointerLock()
+      if (!document.pointerLockElement) {
+        document.documentElement.requestPointerLock().catch(() => {})
+      }
     }
 
     document.addEventListener('mousemove', onMouseMove)
