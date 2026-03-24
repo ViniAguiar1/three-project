@@ -4,6 +4,7 @@ import { RefObject } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useKeyboard } from '@/hooks/useKeyboard'
+import { OrbitState } from '@/hooks/useMouseOrbit'
 
 const SPEED = 5
 const ROTATION_LERP = 0.15
@@ -11,12 +12,14 @@ const ROTATION_LERP = 0.15
 const _direction = new THREE.Vector3()
 const _targetQuaternion = new THREE.Quaternion()
 const _upAxis = new THREE.Vector3(0, 1, 0)
+const _euler = new THREE.Euler(0, 0, 0, 'YXZ')
 
 interface PlayerProps {
   meshRef: RefObject<THREE.Group | null>
+  orbit: RefObject<OrbitState>
 }
 
-export function Player({ meshRef }: PlayerProps) {
+export function Player({ meshRef, orbit }: PlayerProps) {
   const keys = useKeyboard()
 
   useFrame(({ clock }, delta) => {
@@ -31,6 +34,9 @@ export function Player({ meshRef }: PlayerProps) {
     const isMoving = _direction.lengthSq() > 0
 
     if (isMoving) {
+      _euler.set(0, orbit.current.yaw, 0)
+      _direction.applyEuler(_euler)
+
       const angle = Math.atan2(_direction.x, _direction.z)
       _targetQuaternion.setFromAxisAngle(_upAxis, angle)
       meshRef.current.quaternion.slerp(_targetQuaternion, ROTATION_LERP)

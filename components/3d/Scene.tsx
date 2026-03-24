@@ -35,7 +35,7 @@ export function Scene() {
       />
 
       <Environment />
-      <Player meshRef={playerRef} />
+      <Player meshRef={playerRef} orbit={orbit} />
       <NPCSystem playerRef={playerRef} />
       <CameraFollow target={playerRef} orbit={orbit} />
     </>
