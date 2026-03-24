@@ -19,17 +19,18 @@ interface PlayerProps {
 export function Player({ meshRef }: PlayerProps) {
   const keys = useKeyboard()
 
-  useFrame((_, delta) => {
+  useFrame(({ clock }, delta) => {
     if (!meshRef.current) return
 
     _direction.set(0, 0, 0)
-
     if (keys.current.forward) _direction.z -= 1
     if (keys.current.backward) _direction.z += 1
     if (keys.current.left) _direction.x -= 1
     if (keys.current.right) _direction.x += 1
 
-    if (_direction.lengthSq() > 0) {
+    const isMoving = _direction.lengthSq() > 0
+
+    if (isMoving) {
       const angle = Math.atan2(_direction.x, _direction.z)
       _targetQuaternion.setFromAxisAngle(_upAxis, angle)
       meshRef.current.quaternion.slerp(_targetQuaternion, ROTATION_LERP)
@@ -37,30 +38,52 @@ export function Player({ meshRef }: PlayerProps) {
       _direction.normalize().multiplyScalar(SPEED * delta)
       meshRef.current.position.add(_direction)
     }
+
+    // Idle breathing / walk bob — overrides Y every frame
+    const t = clock.elapsedTime
+    meshRef.current.position.y = isMoving
+      ? Math.sin(t * 10) * 0.04
+      : Math.sin(t * 1.5) * 0.015
   })
 
   return (
-    <group ref={meshRef} position={[0, 0, 0]}>
+    <group ref={meshRef}>
+      {/* Legs */}
+      <mesh position={[-0.19, 0.28, 0]} castShadow>
+        <boxGeometry args={[0.22, 0.55, 0.24]} />
+        <meshStandardMaterial color="#1c2a3e" roughness={0.82} metalness={0} />
+      </mesh>
+      <mesh position={[0.19, 0.28, 0]} castShadow>
+        <boxGeometry args={[0.22, 0.55, 0.24]} />
+        <meshStandardMaterial color="#1c2a3e" roughness={0.82} metalness={0} />
+      </mesh>
+
       {/* Body */}
-      <mesh position={[0, 0.65, 0]} castShadow>
-        <boxGeometry args={[0.7, 1.1, 0.45]} />
+      <mesh position={[0, 0.9, 0]} castShadow>
+        <boxGeometry args={[0.68, 0.75, 0.42]} />
         <meshStandardMaterial
           color="#2c4a8a"
           roughness={0.75}
           metalness={0.05}
           emissive="#1a2d5a"
-          emissiveIntensity={0.08}
+          emissiveIntensity={0.06}
         />
       </mesh>
 
+      {/* Arms */}
+      <mesh position={[-0.47, 0.88, 0]} castShadow>
+        <boxGeometry args={[0.2, 0.62, 0.2]} />
+        <meshStandardMaterial color="#243d78" roughness={0.78} metalness={0.04} />
+      </mesh>
+      <mesh position={[0.47, 0.88, 0]} castShadow>
+        <boxGeometry args={[0.2, 0.62, 0.2]} />
+        <meshStandardMaterial color="#243d78" roughness={0.78} metalness={0.04} />
+      </mesh>
+
       {/* Head */}
-      <mesh position={[0, 1.55, 0]} castShadow>
+      <mesh position={[0, 1.52, 0]} castShadow>
         <sphereGeometry args={[0.28, 12, 12]} />
-        <meshStandardMaterial
-          color="#e8c09a"
-          roughness={0.85}
-          metalness={0}
-        />
+        <meshStandardMaterial color="#e8c09a" roughness={0.85} metalness={0} />
       </mesh>
     </group>
   )

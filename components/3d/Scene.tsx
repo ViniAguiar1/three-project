@@ -13,21 +13,24 @@ export function Scene() {
 
   return (
     <>
-      <color attach="background" args={['#87CEEB']} />
-      <fog attach="fog" args={['#87CEEB', 50, 150]} />
+      {/* Atmosphere */}
+      <color attach="background" args={['#a8d4e8']} />
+      <fog attach="fog" args={['#a8d4e8', 45, 160]} />
 
-      <ambientLight intensity={0.9} />
-      <hemisphereLight args={['#b0d8f0', '#4a7c3f', 1.0]} />
+      {/* Lighting */}
+      <ambientLight intensity={0.7} />
+      <hemisphereLight args={['#c0dff5', '#4a7c3f', 1.1]} />
       <directionalLight
-        position={[30, 50, 20]}
-        intensity={1.6}
+        position={[40, 60, 25]}
+        intensity={1.8}
         castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-camera-far={120}
-        shadow-camera-left={-30}
-        shadow-camera-right={30}
-        shadow-camera-top={30}
-        shadow-camera-bottom={-30}
+        shadow-mapSize={[2048, 2048]}
+        shadow-camera-far={180}
+        shadow-camera-left={-60}
+        shadow-camera-right={60}
+        shadow-camera-top={60}
+        shadow-camera-bottom={-60}
+        shadow-bias={-0.0005}
       />
 
       <Environment />
