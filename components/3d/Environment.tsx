@@ -3,6 +3,7 @@
 import { useMemo } from 'react'
 import * as THREE from 'three'
 import { Tree } from './Tree'
+import { City } from './City'
 
 // ── Procedural ground noise ──────────────────────────────────────────────────
 
@@ -52,7 +53,7 @@ function buildGroundGeometry(): THREE.BufferGeometry {
 
 const TREE_COUNT = 50
 const SPREAD = 180
-const MIN_DIST_FROM_CENTER = 8
+const MIN_DIST_FROM_CENTER = 35
 
 interface TreeData {
   position: [number, number, number]
@@ -99,6 +100,7 @@ export function Environment() {
   return (
     <group>
       <Ground />
+      <City />
       {TREES.map((tree, i) => (
         <Tree
           key={i}
