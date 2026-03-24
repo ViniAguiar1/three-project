@@ -68,6 +68,27 @@ Do NOT skip stages.
 
 ---
 
+## 🔀 Git Workflow (MANDATORY)
+
+For EVERY task, you MUST also generate:
+
+1. Branch name (pattern: feat/*, fix/*, chore/*, refactor/*)
+2. Commit message (Conventional Commits)
+3. Commit description (bullet points)
+
+If this is missing, the response is INVALID.
+
+---
+
+## 📄 Pull Request (MANDATORY)
+
+For EVERY task, you MUST also generate:
+
+1. Pull Request title
+2. Pull Request description following PR_TEMPLATE.md
+
+If missing, the response is INVALID.
+
 ## 💬 Response Style
 
 - Direct
