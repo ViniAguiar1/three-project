@@ -4,29 +4,23 @@ import { useRef } from 'react'
 import * as THREE from 'three'
 import { Player } from './Player'
 import { CameraFollow } from './CameraFollow'
+import { Environment } from './Environment'
 
 export function Scene() {
   const playerRef = useRef<THREE.Mesh>(null)
 
   return (
     <>
-      {/* Sky background */}
       <color attach="background" args={['#87CEEB']} />
-      <fog attach="fog" args={['#87CEEB', 40, 120]} />
+      <fog attach="fog" args={['#87CEEB', 50, 150]} />
 
-      {/* Lighting */}
-      <ambientLight intensity={1.5} />
+      <ambientLight intensity={1.2} />
       <hemisphereLight args={['#87CEEB', '#4a7c59', 0.8]} />
-      <directionalLight position={[10, 20, 10]} intensity={1.5} castShadow />
+      <directionalLight position={[30, 50, 20]} intensity={1.8} castShadow />
 
+      <Environment />
       <Player meshRef={playerRef} />
       <CameraFollow target={playerRef} />
-
-      {/* Ground */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[100, 100]} />
-        <meshStandardMaterial color="#5a8a5a" />
-      </mesh>
     </>
   )
 }
