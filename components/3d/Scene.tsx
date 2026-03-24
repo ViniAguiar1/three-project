@@ -5,9 +5,11 @@ import * as THREE from 'three'
 import { Player } from './Player'
 import { CameraFollow } from './CameraFollow'
 import { Environment } from './Environment'
+import { useMouseOrbit } from '@/hooks/useMouseOrbit'
 
 export function Scene() {
   const playerRef = useRef<THREE.Mesh>(null)
+  const orbit = useMouseOrbit()
 
   return (
     <>
@@ -20,7 +22,7 @@ export function Scene() {
 
       <Environment />
       <Player meshRef={playerRef} />
-      <CameraFollow target={playerRef} />
+      <CameraFollow target={playerRef} orbit={orbit} />
     </>
   )
 }
