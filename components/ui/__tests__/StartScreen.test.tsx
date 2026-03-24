@@ -1,13 +1,6 @@
-import { render, screen, act } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect, afterEach } from 'vitest'
 import { StartScreen } from '../StartScreen'
-
-function lockPointer() {
-  Object.defineProperty(document, 'pointerLockElement', {
-    value: document.documentElement,
-    configurable: true,
-  })
-}
 
 function unlockPointer() {
   Object.defineProperty(document, 'pointerLockElement', {
