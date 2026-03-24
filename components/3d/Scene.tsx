@@ -5,6 +5,7 @@ import * as THREE from 'three'
 import { Player } from './Player'
 import { CameraFollow } from './CameraFollow'
 import { Environment } from './Environment'
+import { NPCSystem } from './NPCSystem'
 import { useMouseOrbit } from '@/hooks/useMouseOrbit'
 
 export function Scene() {
@@ -35,6 +36,7 @@ export function Scene() {
 
       <Environment />
       <Player meshRef={playerRef} />
+      <NPCSystem playerRef={playerRef} />
       <CameraFollow target={playerRef} orbit={orbit} />
     </>
   )
