@@ -58,6 +58,7 @@ export function HUD() {
           <Key label="D" />
         </div>
         <div style={{ opacity: 0.6, fontSize: '11px' }}>Move</div>
+        <div style={{ opacity: 0.4, fontSize: '10px', marginTop: '6px' }}>Click to orbit</div>
       </div>
     </div>
   )
