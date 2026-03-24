@@ -50,11 +50,43 @@ describe('usePointerLock', () => {
     expect(result.current).toBe(false)
   })
 
-  it('cleans up event listener on unmount', () => {
-    const removeSpy = vi.spyOn(document, 'removeEventListener')
+  it('returns false on visibilitychange (tab switch)', () => {
+    lockPointer()
+    const { result } = renderHook(() => usePointerLock())
+    act(() => {
+      document.dispatchEvent(new Event('pointerlockchange'))
+    })
+    expect(result.current).toBe(true)
+
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'))
+    })
+    expect(result.current).toBe(false)
+  })
+
+  it('returns false on window blur (alt+tab or focus lost)', () => {
+    lockPointer()
+    const { result } = renderHook(() => usePointerLock())
+    act(() => {
+      document.dispatchEvent(new Event('pointerlockchange'))
+    })
+    expect(result.current).toBe(true)
+
+    act(() => {
+      window.dispatchEvent(new Event('blur'))
+    })
+    expect(result.current).toBe(false)
+  })
+
+  it('cleans up all event listeners on unmount', () => {
+    const docSpy = vi.spyOn(document, 'removeEventListener')
+    const winSpy = vi.spyOn(window, 'removeEventListener')
     const { unmount } = renderHook(() => usePointerLock())
     unmount()
-    expect(removeSpy).toHaveBeenCalledWith('pointerlockchange', expect.any(Function))
-    removeSpy.mockRestore()
+    expect(docSpy).toHaveBeenCalledWith('pointerlockchange', expect.any(Function))
+    expect(docSpy).toHaveBeenCalledWith('visibilitychange', expect.any(Function))
+    expect(winSpy).toHaveBeenCalledWith('blur', expect.any(Function))
+    docSpy.mockRestore()
+    winSpy.mockRestore()
   })
 })
