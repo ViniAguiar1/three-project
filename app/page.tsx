@@ -3,6 +3,8 @@
 import { Canvas } from '@react-three/fiber'
 import { Scene } from '@/components/3d/Scene'
 import { HUD } from '@/components/ui/HUD'
+import { StartScreen } from '@/components/ui/StartScreen'
+import { Crosshair } from '@/components/ui/Crosshair'
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
       >
         <Scene />
       </Canvas>
+      <StartScreen />
+      <Crosshair />
       <HUD />
     </div>
   )
